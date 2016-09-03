@@ -23,6 +23,11 @@ echo "Delete existing cluster" | $OUTPUT
 echo "Kill Java-processes" | $OUTPUT
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
 
+if [ ! -d `echo ~/asterixdb` ]; then
+	echo "Clone into repository" | $OUTPUT
+	git clone git@github.com:apache/asterixdb.git ~/asterixdb
+fi
+
 echo "Pull latest master" | $OUTPUT
 UPDATE=`git -C ~/asterixdb pull`
 echo $UPDATE
