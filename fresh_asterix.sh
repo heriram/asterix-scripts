@@ -1,39 +1,35 @@
 #!/bin/bash
-sudo mkdir -p ~/logs
-LOG_OUTPUT="tee | `echo ~/logs/fresh_asterix.log`"
-CONSOLE_OUTPUT="tee"
 
 # VARIABLES
-OUTPUT=$LOG_OUTPUT # set to LOG_OUTPUT to save to file
 INSTANCE_NAME="test"
 FEED_NAME="feeds"
 LIB_NAME="testlib"
 LIB_PATH="asterixdb/asterixdb/asterix-external-data/target/testlib-zip-binary-assembly.zip"
 
-echo "----------------------------" | $OUTPUT
-date | $OUTPUT
-echo "Installing a fresh AsterixDB" | $OUTPUT
+echo "----------------------------"
+sudo date
+echo "Installing a fresh AsterixDB"
 
-echo "Stop existing cluster" | $OUTPUT
+echo "Stop existing cluster"
 ~/managix/bin/managix stop -n $INSTANCE_NAME
 
-echo "Delete existing cluster" | $OUTPUT
+echo "Delete existing cluster"
 ~/managix/bin/managix delete -n $INSTANCE_NAME
 
-echo "Kill Java-processes" | $OUTPUT
+echo "Kill Java-processes"
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
 
 if [ ! -d `echo ~/asterixdb` ]; then
-	echo "Clone into repository" | $OUTPUT
+	echo "Clone into repository"
 	git clone git@github.com:apache/asterixdb.git ~/asterixdb
 fi
 
-echo "Pull latest master" | $OUTPUT
+echo "Pull latest master"
 UPDATE=`git -C ~/asterixdb pull`
 echo $UPDATE
 
 if echo "$UPDATE" | grep -iq "Already up-to-date." ;then
-	echo "Repository already up-to-date" | $OUTPUT
+	echo "Repository already up-to-date"
 	REBUILD='n'
 else
 	echo -n "Repository updated, re-build asterix? (y/n)? "
@@ -41,40 +37,40 @@ else
 fi
 
 if echo "$REBUILD" | grep -iq "^y" ;then
-	echo "Rebuild" | $OUTPUT
+	echo "Rebuild"
 	sudo mvn -f ~/asterixdb/pom.xml clean package -DskipTests
 else
-	echo "Skipping rebuilding" | $OUTPUT
+	echo "Skipping rebuilding"
 fi
 
-echo "Clean managix directory" | $OUTPUT
+echo "Clean managix directory"
 sudo rm -rf ~/managix && mkdir ~/managix
 
-echo "Copy installer" | $OUTPUT
+echo "Copy installer"
 cp ~/asterixdb/asterixdb/asterix-installer/target/asterix-installer-*-binary-assembly.zip ~/managix/
 
-echo "Unzip installer" | $OUTPUT
+echo "Unzip installer"
 unzip ~/managix/asterix-installer-*-binary-assembly.zip -d ~/managix/
 
-echo "Configure managix" | $OUTPUT
+echo "Configure managix"
 ~/managix/bin/managix configure
 
-echo "Validate managix" | $OUTPUT
+echo "Validate managix"
 ~/managix/bin/managix validate
 
-echo "Create new cluster" | $OUTPUT
+echo "Create new cluster"
 ~/managix/bin/managix create -n $INSTANCE_NAME -c ~/managix/clusters/local/local.xml
 
-echo "Stopping cluster" | $OUTPUT
+echo "Stopping cluster"
 ~/managix/bin/managix stop -n $INSTANCE_NAME
 
-echo "Kill Java-processes" | $OUTPUT
+echo "Kill Java-processes"
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
 
-echo "Installing library" | $OUTPUT
+echo "Installing library"
 ~/managix/bin/managix install -n $INSTANCE_NAME -d $FEED_NAME -l $LIB_NAME -p $LIB_PATH
 
-echo "Starting cluster" | $OUTPUT
+echo "Starting cluster"
 ~/managix/bin/managix start -n $INSTANCE_NAME
 
-echo "Done!" | $OUTPUT
+echo "Done!"
