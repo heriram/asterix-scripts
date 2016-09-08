@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# VARIABLES
-INSTANCE_NAME="test"
-FEED_NAME="feeds"
-LIB_NAME="testlib"
-LIB_PATH="asterixdb/asterixdb/asterix-external-data/target/testlib-zip-binary-assembly.zip"
+# READ VARIABLES
+source asterix.config
 
 echo "----------------------------"
 sudo date
