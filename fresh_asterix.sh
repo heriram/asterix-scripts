@@ -4,7 +4,7 @@
 source asterix.config
 
 echo "----------------------------"
-sudo date
+date
 echo "Installing a fresh AsterixDB"
 
 echo "Stop existing cluster"
@@ -35,13 +35,13 @@ fi
 
 if echo "$REBUILD" | grep -iq "^y" ;then
 	echo "Rebuild"
-	sudo mvn -f ~/asterixdb/pom.xml clean package -DskipTests
+	mvn -f ~/asterixdb/pom.xml clean package -DskipTests
 else
 	echo "Skipping rebuilding"
 fi
 
 echo "Clean managix directory"
-sudo rm -rf ~/managix && mkdir ~/managix
+rm -rf ~/managix && mkdir ~/managix
 
 echo "Copy installer"
 cp ~/asterixdb/asterixdb/asterix-installer/target/asterix-installer-*-binary-assembly.zip ~/managix/
