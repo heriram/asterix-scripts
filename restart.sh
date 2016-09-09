@@ -3,9 +3,9 @@
 echo "----------------------------"
 echo "Restarting AsterixDB"
 
-/bin/bash stop_asterix.sh
+/bin/bash stop.sh
 
-/bin/bash start_asterix.sh
+/bin/bash start.sh
 
 echo "----------------------------"
 echo "AsterixDB restarted!"
