@@ -69,7 +69,7 @@ echo "Kill Java-processes"
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
 
 echo "Installing library"
-~/managix/bin/managix install -n $INSTANCE_NAME -d $FEED_NAME -l $LIB_NAME -p $LIB_PATH
+~/managix/bin/managix install -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME -p $LIB_PATH
 
 echo "Starting cluster"
 ~/managix/bin/managix start -n $INSTANCE_NAME
