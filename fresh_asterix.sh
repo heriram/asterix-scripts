@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Run with rebuild to force build: ./fresh_asterix.sh rebuild
 # READ VARIABLES
 source asterix.config
 
@@ -25,12 +25,16 @@ echo "Pull latest master"
 UPDATE=`git -C ~/asterixdb pull`
 echo $UPDATE
 
-if echo "$UPDATE" | grep -iq "Already up-to-date." ;then
-	echo "Repository already up-to-date"
-	REBUILD='n'
+if [ "$1" = "rebuild" ] ;then
+	REBUILD='y'
 else
-	echo -n "Repository updated, re-build asterix? (y/n)? "
-	read REBUILD
+	if [ "$UPDATE" = "Already up-to-date." ] ;then
+		echo "Repository already up-to-date"
+		REBUILD='n'
+	else
+		echo -n "Repository updated, re-build asterix? (y/n)? "
+		read REBUILD
+	fi
 fi
 
 if echo "$REBUILD" | grep -iq "^y" ;then
