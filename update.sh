@@ -3,15 +3,18 @@
 # READ VARIABLES
 source asterix.config
 
+# Override MANAGIX
+MANAGIX=~/managix/bin/managix
+
 echo "----------------------------"
 date
 echo "Installing a fresh AsterixDB"
 
 echo "Stop existing cluster"
-~/managix/bin/managix stop -n $INSTANCE_NAME
+$MANAGIX stop -n $INSTANCE_NAME
 
 echo "Delete existing cluster"
-~/managix/bin/managix delete -n $INSTANCE_NAME
+$MANAGIX delete -n $INSTANCE_NAME
 
 echo "Kill Java-processes"
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
@@ -54,24 +57,24 @@ echo "Unzip installer"
 unzip ~/managix/asterix-installer-*-binary-assembly.zip -d ~/managix/
 
 echo "Configure managix"
-~/managix/bin/managix configure
+$MANAGIX configure
 
 echo "Validate managix"
-~/managix/bin/managix validate
+$MANAGIX validate
 
 echo "Create new cluster"
-~/managix/bin/managix create -n $INSTANCE_NAME -c ~/managix/clusters/local/local.xml
+$MANAGIX create -n $INSTANCE_NAME -c ~/managix/clusters/local/local.xml
 
 echo "Stopping cluster"
-~/managix/bin/managix stop -n $INSTANCE_NAME
+$MANAGIX stop -n $INSTANCE_NAME
 
 echo "Kill Java-processes"
 kill `jps | egrep '(CDriver|NCService)' | awk '{print $1}'`
 
 echo "Installing library"
-~/managix/bin/managix install -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME -p $LIB_PATH
+$MANAGIX install -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME -p $LIB_PATH
 
 echo "Starting cluster"
-~/managix/bin/managix start -n $INSTANCE_NAME
+$MANAGIX start -n $INSTANCE_NAME
 
 echo "Done!"
