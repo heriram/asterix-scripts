@@ -10,6 +10,9 @@ echo "Installing library"
 # Stop Asterix
 /bin/bash stop.sh
 
+echo "Uninstall existing library"
+$MANAGIX uninstall -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME
+
 echo "Packaging library"
 mvn -f $LIB_DIR/pom.xml clean package -DskipTests
 
