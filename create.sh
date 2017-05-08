@@ -15,3 +15,5 @@ echo "Creating new cluster"
 $MANAGIX create -n $INSTANCE_NAME -c $CLUSTER_CONFIG
 
 echo "----------created-----------"
+
+./notify.sh cluster-created

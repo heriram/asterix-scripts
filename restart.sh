@@ -10,3 +10,5 @@ echo "Restarting AsterixDB"
 
 echo "AsterixDB restarted!"
 echo "----------------------------"
+
+./notify.sh cluster-restarted

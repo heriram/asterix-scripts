@@ -78,3 +78,5 @@ echo "Starting cluster"
 $MANAGIX start -n $INSTANCE_NAME
 
 echo "Done!"
+
+./notify.sh asterix-updated

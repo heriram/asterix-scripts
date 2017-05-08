@@ -34,3 +34,5 @@ $MANAGIX install -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME -p $LIB_PATH
 
 echo "Library installed!"
 echo "----------------------------"
+
+./notify.sh library-installed
