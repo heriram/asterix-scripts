@@ -13,8 +13,18 @@ echo "Installing library"
 echo "Uninstall existing library"
 $MANAGIX uninstall -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME
 
-echo "Packaging library"
-mvn -f $LIB_DIR/pom.xml clean package -DskipTests
+if [ "$1" = "package" ] ;then
+	PACKAGE='y'
+else
+	PACKAGE='n'
+fi
+
+if echo "$PACKAGE" | grep -iq "^y" ;then
+	echo "Packaging library"
+	mvn -f $LIB_DIR/pom.xml clean package -DskipTests
+else
+	echo "Skipping packaging"
+fi
 
 echo "Installing library"
 $MANAGIX install -n $INSTANCE_NAME -d $DATAVERSE -l $LIB_NAME -p $LIB_PATH
