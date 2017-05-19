@@ -3,9 +3,6 @@
 # READ VARIABLES
 source asterix.config
 
-# Override MANAGIX
-MANAGIX=~/managix/bin/managix
-
 echo "----------------------------"
 date
 echo "Installing a fresh AsterixDB"
